@@ -1,0 +1,20 @@
+:root{--ink:#202938;--muted:#5b6573;--brand:#174a6e;--soft:#eaf2f7;--line:#d9e1e8;--page:#f4f7f9}
+*{box-sizing:border-box}body{margin:0;color:var(--ink);background:var(--page);font:16px/1.55 system-ui,-apple-system,"Segoe UI",Arial,sans-serif}
+a{color:var(--brand)}a:focus-visible{outline:3px solid #c56b32;outline-offset:3px}
+.site-header{background:var(--brand);color:white;padding:1rem 1.25rem}.header-inner,main,.site-footer{width:min(1050px,calc(100% - 2rem));margin:auto}
+.site-header a{color:white;text-decoration:none}.site-title{margin:0;font-size:1.15rem;font-weight:700}.site-subtitle{margin:.2rem 0 0;color:#e1edf4;font-size:.92rem}
+main{padding:2rem 0 3rem}.profile-heading{display:grid;grid-template-columns:150px 1fr;gap:1.5rem;align-items:center;margin-bottom:1.5rem}
+.profile-photo{width:150px;aspect-ratio:1;object-fit:cover;border-radius:50%;border:4px solid white;background:var(--soft)}
+.eyebrow{color:var(--brand);text-transform:uppercase;letter-spacing:.08em;font-size:.76rem;font-weight:750;margin:0 0 .25rem}
+h1{margin:0;font-size:clamp(1.8rem,4vw,2.55rem);line-height:1.15}.role{color:var(--muted);font-size:1.08rem;margin:.45rem 0}.quick-info{color:var(--muted);margin:.3rem 0 0}
+.layout{display:grid;grid-template-columns:minmax(0,1.7fr) minmax(240px,.9fr);gap:1.2rem;align-items:start}
+.card{background:white;border:1px solid var(--line);border-radius:14px;padding:1.25rem;margin-bottom:1.2rem;box-shadow:0 2px 8px #152c3d08}
+.card h2{margin:0 0 .75rem;font-size:1.15rem;color:var(--brand)}.card p{margin:.35rem 0}
+.clean-list{margin:.25rem 0 0;padding-left:1.2rem}.clean-list li{margin:.3rem 0}
+.tag-list,.social-links{display:flex;flex-wrap:wrap;gap:.45rem;padding:0;margin:.5rem 0 0;list-style:none}
+.tag-list li{background:var(--soft);color:var(--brand);border-radius:999px;padding:.3rem .7rem;font-size:.88rem}
+.contact-list{display:grid;gap:.45rem;margin:0}.contact-list div{display:grid;grid-template-columns:7.5rem 1fr;gap:.5rem}
+.contact-list dt{color:var(--muted);font-weight:650}.contact-list dd{margin:0;overflow-wrap:anywhere}
+.social-links a{display:inline-block;padding:.45rem .7rem;border:1px solid var(--line);border-radius:8px;text-decoration:none;background:white}
+.note,.site-footer{color:var(--muted);font-size:.88rem}.site-footer{border-top:1px solid var(--line);padding:1rem 0 2rem}
+@media(max-width:720px){.profile-heading{grid-template-columns:92px 1fr;gap:1rem}.profile-photo{width:92px}.layout{grid-template-columns:1fr}.contact-list div{grid-template-columns:1fr;gap:0}}
