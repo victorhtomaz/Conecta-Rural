@@ -1,0 +1,850 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema
+    xmlns:xs="http://www.w3.org/2001/XMLSchema"
+    targetNamespace="https://ufrrj.br/web-semantica/perfis-academicos/schema"
+    xmlns:tns="https://ufrrj.br/web-semantica/perfis-academicos/schema"
+    elementFormDefault="qualified"
+    attributeFormDefault="unqualified"
+    version="1.0">
+
+    <xs:annotation>
+        <xs:documentation xml:lang="pt-BR">
+            XML Schema (XSD 1.0) para validação dos dados estruturados do
+            Diretório Semântico de Perfis Acadêmicos da UFRRJ.
+        </xs:documentation>
+    </xs:annotation>
+
+    <xs:simpleType name="TextoNaoVazioTipo">
+        <xs:restriction base="xs:string">
+            <xs:minLength value="1"/>
+            <xs:pattern value="\S(.*\S)?"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:simpleType name="SiglaTipo">
+        <xs:restriction base="xs:string">
+            <xs:minLength value="1"/>
+            <xs:pattern value="[A-Z0-9][A-Z0-9\-/]*"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:simpleType name="CodigoTipo">
+        <xs:restriction base="xs:string">
+            <xs:minLength value="1"/>
+            <xs:pattern value="[A-Z0-9][A-Z0-9\-._/]*"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:simpleType name="EmailTipo">
+        <xs:restriction base="xs:string">
+            <xs:pattern value="[^@\s]+@[^@\s]+\.[^@\s]+"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:simpleType name="UriHttpTipo">
+        <xs:restriction base="xs:anyURI">
+            <xs:pattern value="https?://.+"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:simpleType name="LattesUriTipo">
+        <xs:restriction base="xs:anyURI">
+            <xs:pattern value="https?://([a-zA-Z0-9\-]+\.)?lattes\.cnpq\.br/.+"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:simpleType name="OrcidUriTipo">
+        <xs:restriction base="xs:anyURI">
+            <xs:pattern value="https://orcid\.org/\d{4}-\d{4}-\d{4}-\d{3}[\dX]"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:simpleType name="DoiUriTipo">
+        <xs:restriction base="xs:anyURI">
+            <xs:pattern value="https://doi\.org/10\.\d{4,9}/[-._;()/:A-Za-z0-9]+"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:simpleType name="IriReferenciaTipo">
+        <xs:restriction base="tns:UriHttpTipo"/>
+    </xs:simpleType>
+
+    <xs:simpleType name="SkosConceptTipo">
+        <xs:restriction base="tns:UriHttpTipo"/>
+    </xs:simpleType>
+
+    <xs:simpleType name="GrauModalidadeTipo">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="Bacharelado"/>
+            <xs:enumeration value="Licenciatura"/>
+            <xs:enumeration value="Tecnológico"/>
+            <xs:enumeration value="Especialização"/>
+            <xs:enumeration value="Mestrado Acadêmico"/>
+            <xs:enumeration value="Mestrado Profissional"/>
+            <xs:enumeration value="Doutorado"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:simpleType name="SituacaoVinculoTipo">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="Ativo"/>
+            <xs:enumeration value="Afastado"/>
+            <xs:enumeration value="Egresso"/>
+            <xs:enumeration value="Aposentado"/>
+            <xs:enumeration value="Desligado"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:simpleType name="NivelFormacaoTipo">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="Ensino Médio"/>
+            <xs:enumeration value="Graduação"/>
+            <xs:enumeration value="Especialização"/>
+            <xs:enumeration value="Mestrado"/>
+            <xs:enumeration value="Doutorado"/>
+            <xs:enumeration value="Pós-Doutorado"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:simpleType name="TipoAreaTipo">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="Área CNPq"/>
+            <xs:enumeration value="Palavra-chave / Interesse"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:simpleType name="TipoProjetoTipo">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="Pesquisa"/>
+            <xs:enumeration value="Extensão"/>
+            <xs:enumeration value="Ensino"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:simpleType name="NivelOrientacaoTipo">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="Iniciação Científica"/>
+            <xs:enumeration value="TCC"/>
+            <xs:enumeration value="Especialização"/>
+            <xs:enumeration value="Mestrado"/>
+            <xs:enumeration value="Doutorado"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:simpleType name="TipoPublicacaoTipo">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="Artigo em periódico"/>
+            <xs:enumeration value="Artigo em anais de evento"/>
+            <xs:enumeration value="Livro"/>
+            <xs:enumeration value="Capítulo de livro"/>
+            <xs:enumeration value="Tese"/>
+            <xs:enumeration value="Dissertação"/>
+            <xs:enumeration value="Trabalho de Conclusão de Curso"/>
+            <xs:enumeration value="Protótipo"/>
+            <xs:enumeration value="Apresentação em evento"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:complexType name="RecursoTipo" abstract="true">
+        <xs:sequence>
+            <xs:element name="uri" type="tns:UriHttpTipo"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="PessoaBaseTipo" abstract="true">
+        <xs:complexContent>
+            <xs:extension base="tns:RecursoTipo">
+                <xs:sequence>
+                    <xs:element name="nomeCompleto" type="tns:TextoNaoVazioTipo"/>
+                    <xs:element name="nomeSocial" type="tns:TextoNaoVazioTipo" minOccurs="0"/>
+                    <xs:element name="nomesCitacao" type="tns:TextoNaoVazioTipo" minOccurs="0" maxOccurs="unbounded"/>
+                    <xs:element name="biografia" type="tns:TextoNaoVazioTipo" minOccurs="0"/>
+                    <xs:element name="fotoPerfil" type="xs:anyURI" minOccurs="0"/>
+                    <xs:element name="emailInstitucional" type="tns:EmailTipo" minOccurs="0"/>
+                    <xs:element name="emailAlternativo" type="tns:EmailTipo" minOccurs="0"/>
+                    <xs:element name="telefoneInstitucional" type="tns:TextoNaoVazioTipo" minOccurs="0"/>
+                    <xs:element name="localizacaoFisica" type="tns:TextoNaoVazioTipo" minOccurs="0"/>
+                    <xs:element name="paginaPessoal" type="tns:UriHttpTipo" minOccurs="0"/>
+                    <xs:element name="curriculoLattes" type="tns:LattesUriTipo" minOccurs="0"/>
+                    <xs:element name="orcid" type="tns:OrcidUriTipo" minOccurs="0"/>
+                    <xs:element name="perfisExternos" type="tns:UriHttpTipo" minOccurs="0" maxOccurs="unbounded"/>
+                    <xs:element name="papeisAcademicos" type="tns:SkosConceptTipo" minOccurs="0" maxOccurs="unbounded"/>
+                    <xs:element name="exerceMandato" type="tns:IriReferenciaTipo" minOccurs="0" maxOccurs="unbounded"/>
+                    <xs:element name="possuiFormacao" type="tns:IriReferenciaTipo" minOccurs="0" maxOccurs="unbounded"/>
+                    <xs:element name="atuaOuInteressaEm" type="tns:IriReferenciaTipo" minOccurs="0" maxOccurs="unbounded"/>
+                    <xs:element name="atuaEmGrupo" type="tns:IriReferenciaTipo" minOccurs="0" maxOccurs="unbounded"/>
+                    <xs:element name="possuiParticipacao" type="tns:IriReferenciaTipo" minOccurs="0" maxOccurs="unbounded"/>
+                </xs:sequence>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+
+    <xs:complexType name="PessoaTipo">
+        <xs:complexContent>
+            <xs:extension base="tns:PessoaBaseTipo">
+                <xs:sequence>
+                    <xs:element name="possuiVinculo" type="tns:IriReferenciaTipo" minOccurs="0" maxOccurs="unbounded"/>
+                </xs:sequence>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+
+    <xs:complexType name="DocenteTipo">
+        <xs:complexContent>
+            <xs:extension base="tns:PessoaBaseTipo">
+                <xs:sequence>
+                    <xs:element name="possuiVinculo" type="tns:IriReferenciaTipo" minOccurs="1" maxOccurs="unbounded"/>
+                    <xs:element name="ministra" type="tns:IriReferenciaTipo" minOccurs="0" maxOccurs="unbounded"/>
+                    <xs:element name="orienta" type="tns:IriReferenciaTipo" minOccurs="0" maxOccurs="unbounded"/>
+                    <xs:element name="coorienta" type="tns:IriReferenciaTipo" minOccurs="0" maxOccurs="unbounded"/>
+                </xs:sequence>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+
+    <xs:complexType name="DiscenteTipo">
+        <xs:complexContent>
+            <xs:extension base="tns:PessoaBaseTipo">
+                <xs:sequence>
+                    <xs:element name="possuiVinculo" type="tns:IriReferenciaTipo" minOccurs="1" maxOccurs="unbounded"/>
+                    <xs:element name="periodoAtual" type="tns:TextoNaoVazioTipo" minOccurs="0"/>
+                    <xs:element name="orientadoEm" type="tns:IriReferenciaTipo" minOccurs="0" maxOccurs="unbounded"/>
+                </xs:sequence>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+
+    <xs:complexType name="OrganizacaoBaseTipo" abstract="true">
+        <xs:complexContent>
+            <xs:extension base="tns:RecursoTipo">
+                <xs:sequence>
+                    <xs:element name="nome" type="tns:TextoNaoVazioTipo"/>
+                    <xs:element name="sigla" type="tns:SiglaTipo" minOccurs="0"/>
+                    <xs:element name="linkExternoLod" type="tns:UriHttpTipo" minOccurs="0" maxOccurs="unbounded"/>
+                </xs:sequence>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+
+    <xs:complexType name="InstituicaoTipo">
+        <xs:complexContent>
+            <xs:extension base="tns:OrganizacaoBaseTipo"/>
+        </xs:complexContent>
+    </xs:complexType>
+
+    <xs:complexType name="UnidadeAcademicaTipo">
+        <xs:complexContent>
+            <xs:extension base="tns:OrganizacaoBaseTipo">
+                <xs:sequence>
+                    <xs:element name="subUnidadeDe" type="tns:IriReferenciaTipo"/>
+                </xs:sequence>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+
+    <xs:complexType name="DepartamentoTipo">
+        <xs:complexContent>
+            <xs:extension base="tns:OrganizacaoBaseTipo">
+                <xs:sequence>
+                    <xs:element name="subUnidadeDe" type="tns:IriReferenciaTipo"/>
+                </xs:sequence>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+
+    <xs:complexType name="CursoProgramaTipo">
+        <xs:complexContent>
+            <xs:extension base="tns:RecursoTipo">
+                <xs:sequence>
+                    <xs:element name="nome" type="tns:TextoNaoVazioTipo"/>
+                    <xs:element name="grauModalidade" type="tns:GrauModalidadeTipo" minOccurs="0"/>
+                    <xs:element name="codigoInstitucional" type="tns:CodigoTipo" minOccurs="0"/>
+                    <xs:element name="ofertadoPor" type="tns:IriReferenciaTipo"/>
+                </xs:sequence>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+
+    <xs:complexType name="VinculoInstitucionalTipo">
+        <xs:complexContent>
+            <xs:extension base="tns:RecursoTipo">
+                <xs:sequence>
+                    <xs:element name="identificadorInstitucional" type="tns:TextoNaoVazioTipo" minOccurs="0"/>
+                    <xs:element name="tipoVinculo" type="tns:SkosConceptTipo"/>
+                    <xs:element name="cargoClasse" type="tns:SkosConceptTipo" minOccurs="0"/>
+                    <xs:element name="situacao" type="tns:SituacaoVinculoTipo"/>
+                    <xs:element name="anoIngresso" type="xs:gYear" minOccurs="0"/>
+                    <xs:element name="anoFim" type="xs:gYear" minOccurs="0"/>
+                    <xs:element name="emInstituicao" type="tns:IriReferenciaTipo"/>
+                    <xs:element name="emUnidade" type="tns:IriReferenciaTipo"/>
+                    <xs:element name="emDepartamento" type="tns:IriReferenciaTipo" minOccurs="0"/>
+                    <xs:element name="emCurso" type="tns:IriReferenciaTipo" minOccurs="0" maxOccurs="unbounded"/>
+                </xs:sequence>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+
+    <xs:complexType name="MandatoGestaoRepresentacaoTipo">
+        <xs:complexContent>
+            <xs:extension base="tns:RecursoTipo">
+                <xs:sequence>
+                    <xs:element name="cargo" type="tns:SkosConceptTipo"/>
+                    <xs:element name="anoInicio" type="xs:gYear"/>
+                    <xs:element name="anoFim" type="xs:gYear" minOccurs="0"/>
+                    <xs:choice>
+                        <xs:sequence>
+                            <xs:element name="emOrganizacao" type="tns:IriReferenciaTipo"/>
+                            <xs:element name="emCurso" type="tns:IriReferenciaTipo" minOccurs="0"/>
+                        </xs:sequence>
+                        <xs:element name="emCurso" type="tns:IriReferenciaTipo"/>
+                    </xs:choice>
+                </xs:sequence>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+
+    <xs:complexType name="FormacaoAcademicaTipo">
+        <xs:complexContent>
+            <xs:extension base="tns:RecursoTipo">
+                <xs:sequence>
+                    <xs:element name="nivel" type="tns:NivelFormacaoTipo"/>
+                    <xs:element name="tituloObtido" type="tns:TextoNaoVazioTipo"/>
+                    <xs:element name="instituicao" type="tns:TextoNaoVazioTipo"/>
+                    <xs:element name="anoIngresso" type="xs:gYear" minOccurs="0"/>
+                    <xs:element name="anoConclusao" type="xs:gYear" minOccurs="0"/>
+                </xs:sequence>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+
+    <xs:complexType name="DisciplinaTipo">
+        <xs:complexContent>
+            <xs:extension base="tns:RecursoTipo">
+                <xs:sequence>
+                    <xs:element name="codigo" type="tns:CodigoTipo" minOccurs="0"/>
+                    <xs:element name="nome" type="tns:TextoNaoVazioTipo"/>
+                    <xs:element name="integraCurriculoDe" type="tns:IriReferenciaTipo" minOccurs="0" maxOccurs="unbounded"/>
+                </xs:sequence>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+
+    <xs:complexType name="AreaConhecimentoTipo">
+        <xs:complexContent>
+            <xs:extension base="tns:RecursoTipo">
+                <xs:sequence>
+                    <xs:element name="nome" type="tns:TextoNaoVazioTipo"/>
+                    <xs:element name="classificacaoCnpq" type="tns:TextoNaoVazioTipo" minOccurs="0"/>
+                    <xs:element name="tipoArea" type="tns:TipoAreaTipo" minOccurs="0"/>
+                    <xs:element name="subAreaDe" type="tns:IriReferenciaTipo" minOccurs="0"/>
+                </xs:sequence>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+
+    <xs:complexType name="GrupoPesquisaTipo">
+        <xs:complexContent>
+            <xs:extension base="tns:RecursoTipo">
+                <xs:sequence>
+                    <xs:element name="nome" type="tns:TextoNaoVazioTipo"/>
+                    <xs:element name="descricao" type="tns:TextoNaoVazioTipo" minOccurs="0"/>
+                </xs:sequence>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+
+    <xs:complexType name="ParticipacaoGrupoTipo">
+        <xs:complexContent>
+            <xs:extension base="tns:RecursoTipo">
+                <xs:sequence>
+                    <xs:element name="papelNoGrupo" type="tns:SkosConceptTipo"/>
+                    <xs:element name="anoInicio" type="xs:gYear" minOccurs="0"/>
+                    <xs:element name="anoFim" type="xs:gYear" minOccurs="0"/>
+                    <xs:element name="noGrupo" type="tns:IriReferenciaTipo"/>
+                </xs:sequence>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+
+    <xs:complexType name="ProjetoTipo">
+        <xs:complexContent>
+            <xs:extension base="tns:RecursoTipo">
+                <xs:sequence>
+                    <xs:element name="titulo" type="tns:TextoNaoVazioTipo"/>
+                    <xs:element name="tipoProjeto" type="tns:TipoProjetoTipo"/>
+                    <xs:element name="descricao" type="tns:TextoNaoVazioTipo" minOccurs="0"/>
+                    <xs:element name="anoInicio" type="xs:gYear" minOccurs="0"/>
+                    <xs:element name="anoFim" type="xs:gYear" minOccurs="0"/>
+                    <xs:element name="financiadoPor" type="tns:IriReferenciaTipo" minOccurs="0" maxOccurs="unbounded"/>
+                </xs:sequence>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+
+    <xs:complexType name="ParticipacaoProjetoTipo">
+        <xs:complexContent>
+            <xs:extension base="tns:RecursoTipo">
+                <xs:sequence>
+                    <xs:element name="papelPessoa" type="tns:SkosConceptTipo"/>
+                    <xs:element name="anoInicio" type="xs:gYear" minOccurs="0"/>
+                    <xs:element name="anoFim" type="xs:gYear" minOccurs="0"/>
+                    <xs:element name="noProjeto" type="tns:IriReferenciaTipo"/>
+                </xs:sequence>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+
+    <xs:complexType name="AgenciaFomentoTipo">
+        <xs:complexContent>
+            <xs:extension base="tns:RecursoTipo">
+                <xs:sequence>
+                    <xs:element name="nome" type="tns:TextoNaoVazioTipo"/>
+                </xs:sequence>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+
+    <xs:complexType name="OrientacaoTipo">
+        <xs:complexContent>
+            <xs:extension base="tns:RecursoTipo">
+                <xs:sequence>
+                    <xs:element name="nivel" type="tns:NivelOrientacaoTipo"/>
+                    <xs:element name="tituloTrabalho" type="tns:TextoNaoVazioTipo"/>
+                    <xs:element name="anoInicio" type="xs:gYear"/>
+                    <xs:element name="anoFim" type="xs:gYear" minOccurs="0"/>
+                    <xs:element name="temOrientador" type="tns:IriReferenciaTipo"/>
+                    <xs:element name="temCoorientador" type="tns:IriReferenciaTipo" minOccurs="0" maxOccurs="unbounded"/>
+                    <xs:element name="temOrientando" type="tns:IriReferenciaTipo"/>
+                    <xs:element name="mediadaPorCurso" type="tns:IriReferenciaTipo" minOccurs="0"/>
+                    <xs:element name="mediadaPorProjeto" type="tns:IriReferenciaTipo" minOccurs="0"/>
+                </xs:sequence>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+
+    <xs:complexType name="ProducaoAcademicaTipo">
+        <xs:complexContent>
+            <xs:extension base="tns:RecursoTipo">
+                <xs:sequence>
+                    <xs:element name="titulo" type="tns:TextoNaoVazioTipo"/>
+                    <xs:element name="tipoPublicacao" type="tns:TipoPublicacaoTipo"/>
+                    <xs:element name="veiculo" type="tns:TextoNaoVazioTipo" minOccurs="0"/>
+                    <xs:element name="ano" type="xs:gYear"/>
+                    <xs:element name="doi" type="tns:DoiUriTipo" minOccurs="0"/>
+                    <xs:element name="temAutor" type="tns:IriReferenciaTipo" minOccurs="1" maxOccurs="unbounded"/>
+                    <xs:element name="originadaDe" type="tns:IriReferenciaTipo" minOccurs="0" maxOccurs="unbounded"/>
+                </xs:sequence>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+
+    <xs:complexType name="MetadadosConjuntoDadosTipo">
+        <xs:sequence>
+            <xs:element name="fonte" type="tns:TextoNaoVazioTipo" minOccurs="1" maxOccurs="unbounded"/>
+            <xs:element name="licenca" type="tns:UriHttpTipo"/>
+            <xs:element name="dataModificacao" type="xs:date"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:element name="diretorioAcademico">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="metadados" type="tns:MetadadosConjuntoDadosTipo"/>
+
+                <xs:element name="instituicoes" minOccurs="0">
+                    <xs:complexType>
+                        <xs:sequence>
+                            <xs:element name="instituicao" type="tns:InstituicaoTipo" maxOccurs="unbounded"/>
+                        </xs:sequence>
+                    </xs:complexType>
+                </xs:element>
+
+                <xs:element name="unidadesAcademicas" minOccurs="0">
+                    <xs:complexType>
+                        <xs:sequence>
+                            <xs:element name="unidadeAcademica" type="tns:UnidadeAcademicaTipo" maxOccurs="unbounded"/>
+                        </xs:sequence>
+                    </xs:complexType>
+                </xs:element>
+
+                <xs:element name="departamentos" minOccurs="0">
+                    <xs:complexType>
+                        <xs:sequence>
+                            <xs:element name="departamento" type="tns:DepartamentoTipo" maxOccurs="unbounded"/>
+                        </xs:sequence>
+                    </xs:complexType>
+                </xs:element>
+
+                <xs:element name="cursosProgramas" minOccurs="0">
+                    <xs:complexType>
+                        <xs:sequence>
+                            <xs:element name="cursoPrograma" type="tns:CursoProgramaTipo" maxOccurs="unbounded"/>
+                        </xs:sequence>
+                    </xs:complexType>
+                </xs:element>
+
+                <xs:element name="pessoas" minOccurs="0">
+                    <xs:complexType>
+                        <xs:choice maxOccurs="unbounded">
+                            <xs:element name="pessoa" type="tns:PessoaTipo"/>
+                            <xs:element name="docente" type="tns:DocenteTipo"/>
+                            <xs:element name="discente" type="tns:DiscenteTipo"/>
+                        </xs:choice>
+                    </xs:complexType>
+                </xs:element>
+
+                <xs:element name="vinculosInstitucionais" minOccurs="0">
+                    <xs:complexType>
+                        <xs:sequence>
+                            <xs:element name="vinculoInstitucional" type="tns:VinculoInstitucionalTipo" maxOccurs="unbounded"/>
+                        </xs:sequence>
+                    </xs:complexType>
+                </xs:element>
+
+                <xs:element name="mandatosGestaoRepresentacao" minOccurs="0">
+                    <xs:complexType>
+                        <xs:sequence>
+                            <xs:element name="mandatoGestaoRepresentacao" type="tns:MandatoGestaoRepresentacaoTipo" maxOccurs="unbounded"/>
+                        </xs:sequence>
+                    </xs:complexType>
+                </xs:element>
+
+                <xs:element name="formacoesAcademicas" minOccurs="0">
+                    <xs:complexType>
+                        <xs:sequence>
+                            <xs:element name="formacaoAcademica" type="tns:FormacaoAcademicaTipo" maxOccurs="unbounded"/>
+                        </xs:sequence>
+                    </xs:complexType>
+                </xs:element>
+
+                <xs:element name="disciplinas" minOccurs="0">
+                    <xs:complexType>
+                        <xs:sequence>
+                            <xs:element name="disciplina" type="tns:DisciplinaTipo" maxOccurs="unbounded"/>
+                        </xs:sequence>
+                    </xs:complexType>
+                </xs:element>
+
+                <xs:element name="areasConhecimento" minOccurs="0">
+                    <xs:complexType>
+                        <xs:sequence>
+                            <xs:element name="areaConhecimento" type="tns:AreaConhecimentoTipo" maxOccurs="unbounded"/>
+                        </xs:sequence>
+                    </xs:complexType>
+                </xs:element>
+
+                <xs:element name="gruposPesquisa" minOccurs="0">
+                    <xs:complexType>
+                        <xs:sequence>
+                            <xs:element name="grupoPesquisa" type="tns:GrupoPesquisaTipo" maxOccurs="unbounded"/>
+                        </xs:sequence>
+                    </xs:complexType>
+                </xs:element>
+
+                <xs:element name="participacoesGrupo" minOccurs="0">
+                    <xs:complexType>
+                        <xs:sequence>
+                            <xs:element name="participacaoGrupo" type="tns:ParticipacaoGrupoTipo" maxOccurs="unbounded"/>
+                        </xs:sequence>
+                    </xs:complexType>
+                </xs:element>
+
+                <xs:element name="projetos" minOccurs="0">
+                    <xs:complexType>
+                        <xs:sequence>
+                            <xs:element name="projeto" type="tns:ProjetoTipo" maxOccurs="unbounded"/>
+                        </xs:sequence>
+                    </xs:complexType>
+                </xs:element>
+
+                <xs:element name="participacoesProjeto" minOccurs="0">
+                    <xs:complexType>
+                        <xs:sequence>
+                            <xs:element name="participacaoProjeto" type="tns:ParticipacaoProjetoTipo" maxOccurs="unbounded"/>
+                        </xs:sequence>
+                    </xs:complexType>
+                </xs:element>
+
+                <xs:element name="agenciasFomento" minOccurs="0">
+                    <xs:complexType>
+                        <xs:sequence>
+                            <xs:element name="agenciaFomento" type="tns:AgenciaFomentoTipo" maxOccurs="unbounded"/>
+                        </xs:sequence>
+                    </xs:complexType>
+                </xs:element>
+
+                <xs:element name="orientacoes" minOccurs="0">
+                    <xs:complexType>
+                        <xs:sequence>
+                            <xs:element name="orientacao" type="tns:OrientacaoTipo" maxOccurs="unbounded"/>
+                        </xs:sequence>
+                    </xs:complexType>
+                </xs:element>
+
+                <xs:element name="producoesAcademicas" minOccurs="0">
+                    <xs:complexType>
+                        <xs:sequence>
+                            <xs:element name="producaoAcademica" type="tns:ProducaoAcademicaTipo" maxOccurs="unbounded"/>
+                        </xs:sequence>
+                    </xs:complexType>
+                </xs:element>
+            </xs:sequence>
+        </xs:complexType>
+
+        <xs:unique name="ukUriGlobal">
+            <xs:selector xpath="*/*"/>
+            <xs:field xpath="tns:uri"/>
+        </xs:unique>
+
+        <xs:key name="pkInstituicao">
+            <xs:selector xpath="tns:instituicoes/tns:instituicao"/>
+            <xs:field xpath="tns:uri"/>
+        </xs:key>
+
+        <xs:key name="pkUnidadeAcademica">
+            <xs:selector xpath="tns:unidadesAcademicas/tns:unidadeAcademica"/>
+            <xs:field xpath="tns:uri"/>
+        </xs:key>
+
+        <xs:key name="pkDepartamento">
+            <xs:selector xpath="tns:departamentos/tns:departamento"/>
+            <xs:field xpath="tns:uri"/>
+        </xs:key>
+
+        <xs:key name="pkOrganizacao">
+            <xs:selector xpath="tns:instituicoes/tns:instituicao | tns:unidadesAcademicas/tns:unidadeAcademica | tns:departamentos/tns:departamento"/>
+            <xs:field xpath="tns:uri"/>
+        </xs:key>
+
+        <xs:key name="pkCursoPrograma">
+            <xs:selector xpath="tns:cursosProgramas/tns:cursoPrograma"/>
+            <xs:field xpath="tns:uri"/>
+        </xs:key>
+
+        <xs:key name="pkPessoa">
+            <xs:selector xpath="tns:pessoas/tns:pessoa | tns:pessoas/tns:docente | tns:pessoas/tns:discente"/>
+            <xs:field xpath="tns:uri"/>
+        </xs:key>
+
+        <xs:key name="pkDocente">
+            <xs:selector xpath="tns:pessoas/tns:docente"/>
+            <xs:field xpath="tns:uri"/>
+        </xs:key>
+
+        <xs:key name="pkDiscente">
+            <xs:selector xpath="tns:pessoas/tns:discente"/>
+            <xs:field xpath="tns:uri"/>
+        </xs:key>
+
+        <xs:key name="pkVinculoInstitucional">
+            <xs:selector xpath="tns:vinculosInstitucionais/tns:vinculoInstitucional"/>
+            <xs:field xpath="tns:uri"/>
+        </xs:key>
+
+        <xs:key name="pkMandatoGestao">
+            <xs:selector xpath="tns:mandatosGestaoRepresentacao/tns:mandatoGestaoRepresentacao"/>
+            <xs:field xpath="tns:uri"/>
+        </xs:key>
+
+        <xs:key name="pkFormacaoAcademica">
+            <xs:selector xpath="tns:formacoesAcademicas/tns:formacaoAcademica"/>
+            <xs:field xpath="tns:uri"/>
+        </xs:key>
+
+        <xs:key name="pkDisciplina">
+            <xs:selector xpath="tns:disciplinas/tns:disciplina"/>
+            <xs:field xpath="tns:uri"/>
+        </xs:key>
+
+        <xs:key name="pkAreaConhecimento">
+            <xs:selector xpath="tns:areasConhecimento/tns:areaConhecimento"/>
+            <xs:field xpath="tns:uri"/>
+        </xs:key>
+
+        <xs:key name="pkGrupoPesquisa">
+            <xs:selector xpath="tns:gruposPesquisa/tns:grupoPesquisa"/>
+            <xs:field xpath="tns:uri"/>
+        </xs:key>
+
+        <xs:key name="pkParticipacaoGrupo">
+            <xs:selector xpath="tns:participacoesGrupo/tns:participacaoGrupo"/>
+            <xs:field xpath="tns:uri"/>
+        </xs:key>
+
+        <xs:key name="pkProjeto">
+            <xs:selector xpath="tns:projetos/tns:projeto"/>
+            <xs:field xpath="tns:uri"/>
+        </xs:key>
+
+        <xs:key name="pkParticipacaoProjeto">
+            <xs:selector xpath="tns:participacoesProjeto/tns:participacaoProjeto"/>
+            <xs:field xpath="tns:uri"/>
+        </xs:key>
+
+        <xs:key name="pkAgenciaFomento">
+            <xs:selector xpath="tns:agenciasFomento/tns:agenciaFomento"/>
+            <xs:field xpath="tns:uri"/>
+        </xs:key>
+
+        <xs:key name="pkOrientacao">
+            <xs:selector xpath="tns:orientacoes/tns:orientacao"/>
+            <xs:field xpath="tns:uri"/>
+        </xs:key>
+
+        <xs:keyref name="fkUnidadeSubUnidadeDe" refer="tns:pkInstituicao">
+            <xs:selector xpath="tns:unidadesAcademicas/tns:unidadeAcademica"/>
+            <xs:field xpath="tns:subUnidadeDe"/>
+        </xs:keyref>
+
+        <xs:keyref name="fkDepartamentoSubUnidadeDe" refer="tns:pkUnidadeAcademica">
+            <xs:selector xpath="tns:departamentos/tns:departamento"/>
+            <xs:field xpath="tns:subUnidadeDe"/>
+        </xs:keyref>
+
+        <xs:keyref name="fkCursoOfertadoPor" refer="tns:pkUnidadeAcademica">
+            <xs:selector xpath="tns:cursosProgramas/tns:cursoPrograma"/>
+            <xs:field xpath="tns:ofertadoPor"/>
+        </xs:keyref>
+
+        <xs:keyref name="fkPessoaPossuiVinculo" refer="tns:pkVinculoInstitucional">
+            <xs:selector xpath="tns:pessoas/*/tns:possuiVinculo"/>
+            <xs:field xpath="."/>
+        </xs:keyref>
+
+        <xs:keyref name="fkPessoaExerceMandato" refer="tns:pkMandatoGestao">
+            <xs:selector xpath="tns:pessoas/*/tns:exerceMandato"/>
+            <xs:field xpath="."/>
+        </xs:keyref>
+
+        <xs:keyref name="fkPessoaPossuiFormacao" refer="tns:pkFormacaoAcademica">
+            <xs:selector xpath="tns:pessoas/*/tns:possuiFormacao"/>
+            <xs:field xpath="."/>
+        </xs:keyref>
+
+        <xs:keyref name="fkPessoaAtuaOuInteressaEm" refer="tns:pkAreaConhecimento">
+            <xs:selector xpath="tns:pessoas/*/tns:atuaOuInteressaEm"/>
+            <xs:field xpath="."/>
+        </xs:keyref>
+
+        <xs:keyref name="fkPessoaAtuaEmGrupo" refer="tns:pkParticipacaoGrupo">
+            <xs:selector xpath="tns:pessoas/*/tns:atuaEmGrupo"/>
+            <xs:field xpath="."/>
+        </xs:keyref>
+
+        <xs:keyref name="fkPessoaPossuiParticipacao" refer="tns:pkParticipacaoProjeto">
+            <xs:selector xpath="tns:pessoas/*/tns:possuiParticipacao"/>
+            <xs:field xpath="."/>
+        </xs:keyref>
+
+        <xs:keyref name="fkDocenteMinistra" refer="tns:pkDisciplina">
+            <xs:selector xpath="tns:pessoas/tns:docente/tns:ministra"/>
+            <xs:field xpath="."/>
+        </xs:keyref>
+
+        <xs:keyref name="fkDocenteOrienta" refer="tns:pkOrientacao">
+            <xs:selector xpath="tns:pessoas/tns:docente/tns:orienta"/>
+            <xs:field xpath="."/>
+        </xs:keyref>
+
+        <xs:keyref name="fkDocenteCoorienta" refer="tns:pkOrientacao">
+            <xs:selector xpath="tns:pessoas/tns:docente/tns:coorienta"/>
+            <xs:field xpath="."/>
+        </xs:keyref>
+
+        <xs:keyref name="fkDiscenteOrientadoEm" refer="tns:pkOrientacao">
+            <xs:selector xpath="tns:pessoas/tns:discente/tns:orientadoEm"/>
+            <xs:field xpath="."/>
+        </xs:keyref>
+
+        <xs:keyref name="fkVinculoEmInstituicao" refer="tns:pkInstituicao">
+            <xs:selector xpath="tns:vinculosInstitucionais/tns:vinculoInstitucional"/>
+            <xs:field xpath="tns:emInstituicao"/>
+        </xs:keyref>
+
+        <xs:keyref name="fkVinculoEmUnidade" refer="tns:pkUnidadeAcademica">
+            <xs:selector xpath="tns:vinculosInstitucionais/tns:vinculoInstitucional"/>
+            <xs:field xpath="tns:emUnidade"/>
+        </xs:keyref>
+
+        <xs:keyref name="fkVinculoEmDepartamento" refer="tns:pkDepartamento">
+            <xs:selector xpath="tns:vinculosInstitucionais/tns:vinculoInstitucional/tns:emDepartamento"/>
+            <xs:field xpath="."/>
+        </xs:keyref>
+
+        <xs:keyref name="fkVinculoEmCurso" refer="tns:pkCursoPrograma">
+            <xs:selector xpath="tns:vinculosInstitucionais/tns:vinculoInstitucional/tns:emCurso"/>
+            <xs:field xpath="."/>
+        </xs:keyref>
+
+        <xs:keyref name="fkMandatoEmOrganizacao" refer="tns:pkOrganizacao">
+            <xs:selector xpath="tns:mandatosGestaoRepresentacao/tns:mandatoGestaoRepresentacao/tns:emOrganizacao"/>
+            <xs:field xpath="."/>
+        </xs:keyref>
+
+        <xs:keyref name="fkMandatoEmCurso" refer="tns:pkCursoPrograma">
+            <xs:selector xpath="tns:mandatosGestaoRepresentacao/tns:mandatoGestaoRepresentacao/tns:emCurso"/>
+            <xs:field xpath="."/>
+        </xs:keyref>
+
+        <xs:keyref name="fkDisciplinaIntegraCurriculoDe" refer="tns:pkCursoPrograma">
+            <xs:selector xpath="tns:disciplinas/tns:disciplina/tns:integraCurriculoDe"/>
+            <xs:field xpath="."/>
+        </xs:keyref>
+
+        <xs:keyref name="fkAreaSubAreaDe" refer="tns:pkAreaConhecimento">
+            <xs:selector xpath="tns:areasConhecimento/tns:areaConhecimento/tns:subAreaDe"/>
+            <xs:field xpath="."/>
+        </xs:keyref>
+
+        <xs:keyref name="fkParticipacaoGrupoNoGrupo" refer="tns:pkGrupoPesquisa">
+            <xs:selector xpath="tns:participacoesGrupo/tns:participacaoGrupo"/>
+            <xs:field xpath="tns:noGrupo"/>
+        </xs:keyref>
+
+        <xs:keyref name="fkProjetoFinanciadoPor" refer="tns:pkAgenciaFomento">
+            <xs:selector xpath="tns:projetos/tns:projeto/tns:financiadoPor"/>
+            <xs:field xpath="."/>
+        </xs:keyref>
+
+        <xs:keyref name="fkParticipacaoProjetoNoProjeto" refer="tns:pkProjeto">
+            <xs:selector xpath="tns:participacoesProjeto/tns:participacaoProjeto"/>
+            <xs:field xpath="tns:noProjeto"/>
+        </xs:keyref>
+
+        <xs:keyref name="fkOrientacaoTemOrientador" refer="tns:pkDocente">
+            <xs:selector xpath="tns:orientacoes/tns:orientacao"/>
+            <xs:field xpath="tns:temOrientador"/>
+        </xs:keyref>
+
+        <xs:keyref name="fkOrientacaoTemCoorientador" refer="tns:pkDocente">
+            <xs:selector xpath="tns:orientacoes/tns:orientacao/tns:temCoorientador"/>
+            <xs:field xpath="."/>
+        </xs:keyref>
+
+        <xs:keyref name="fkOrientacaoTemOrientando" refer="tns:pkDiscente">
+            <xs:selector xpath="tns:orientacoes/tns:orientacao"/>
+            <xs:field xpath="tns:temOrientando"/>
+        </xs:keyref>
+
+        <xs:keyref name="fkOrientacaoMediadaPorCurso" refer="tns:pkCursoPrograma">
+            <xs:selector xpath="tns:orientacoes/tns:orientacao/tns:mediadaPorCurso"/>
+            <xs:field xpath="."/>
+        </xs:keyref>
+
+        <xs:keyref name="fkOrientacaoMediadaPorProjeto" refer="tns:pkProjeto">
+            <xs:selector xpath="tns:orientacoes/tns:orientacao/tns:mediadaPorProjeto"/>
+            <xs:field xpath="."/>
+        </xs:keyref>
+
+        <xs:keyref name="fkProducaoTemAutor" refer="tns:pkPessoa">
+            <xs:selector xpath="tns:producoesAcademicas/tns:producaoAcademica/tns:temAutor"/>
+            <xs:field xpath="."/>
+        </xs:keyref>
+
+        <xs:keyref name="fkProducaoOriginadaDe" refer="tns:pkProjeto">
+            <xs:selector xpath="tns:producoesAcademicas/tns:producaoAcademica/tns:originadaDe"/>
+            <xs:field xpath="."/>
+        </xs:keyref>
+    </xs:element>
+
+</xs:schema>
